@@ -6,7 +6,7 @@ const envSchema = z.object({
 
 function environments() {
   const parsed = envSchema.safeParse({
-    EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL,
+    EXPO_PUBLIC_API_URL: "http://192.168.1.31:3001"
   });
 
   if (!parsed.success) {
@@ -17,7 +17,7 @@ function environments() {
   return parsed.data;
 }
 
-export const {EXPO_PUBLIC_API_URL} = environments()
+export const { EXPO_PUBLIC_API_URL } = environments()
 
 
 

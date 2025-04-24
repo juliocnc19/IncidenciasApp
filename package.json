@@ -1,4 +1,14 @@
 {
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "@hookform/resolvers",
+          "tailwindcss"
+        ]
+      }
+    }
+  },
   "name": "incidenciasapp",
   "version": "1.0.0",
   "main": "expo-router/entry",
