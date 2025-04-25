@@ -58,7 +58,7 @@ export default function RegisterForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>Nombre</Text>
               <TextInput
-                className='w-full bg-sky-100 p-3 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg'
                 placeholder='Romulo'
                 value={value}
                 onBlur={onBlur}
@@ -75,7 +75,7 @@ export default function RegisterForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>Apellido</Text>
               <TextInput
-                className='w-full bg-sky-100 p-3 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg'
                 placeholder='Gallegos'
                 value={value}
                 onBlur={onBlur}
@@ -93,7 +93,7 @@ export default function RegisterForm() {
               <Text className='my-1 text-sm font-medium'>Cedula</Text>
               <TextInput
                 placeholder='Cedula de identidad'
-                className='w-full bg-sky-100 p-3 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg'
                 keyboardType='numeric'
                 value={value}
                 onBlur={onBlur}
@@ -111,7 +111,7 @@ export default function RegisterForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>Nombre de usuario</Text>
               <TextInput
-                className='w-full bg-sky-100 p-3 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg'
                 placeholder='ejemplo123'
                 autoCapitalize="none"
                 value={value}
@@ -130,7 +130,7 @@ export default function RegisterForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>Correo Electronico</Text>
               <TextInput
-                className='w-full bg-sky-100 p-3 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg'
                 placeholder='ejemplo@ejemplo.com'
                 keyboardType='email-address'
                 autoCapitalize='none'
@@ -149,7 +149,7 @@ export default function RegisterForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>Contraseña</Text>
               <TextInput
-                className='w-full bg-sky-100 p-3 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg'
                 placeholder="••••••••"
                 autoCapitalize="none"
                 secureTextEntry
@@ -168,7 +168,7 @@ export default function RegisterForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>Repetir contraseña</Text>
               <TextInput
-                className='w-full bg-sky-100 p-3 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg'
                 placeholder="••••••••"
                 autoCapitalize="none"
                 secureTextEntry
@@ -183,7 +183,7 @@ export default function RegisterForm() {
       </ScrollView>
       <TouchableOpacity onPress={handleSubmit(onSubmit)}
         disabled={isPending || !isFormFilled}
-        className={isPending || !isFormFilled ? "bg-gray-400 p-3 rounded-lg w-[90%] mb-3" : "bg-blue-500 p-3 rounded-lg w-[90%] mb-3"}
+        className={isPending || !isFormFilled ? "bg-gray-400 p-4 rounded-lg w-[90%] mb-3" : "bg-blue-500 p-4 rounded-lg w-[90%] mb-3"}
 
       >
         {isPending ?

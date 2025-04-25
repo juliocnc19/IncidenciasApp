@@ -52,7 +52,7 @@ export default function LoginForm() {
             <View className='w-[90%]'>
               <Text className='my-1 text-sm font-medium'>Email</Text>
               <TextInput
-                className='w-full bg-sky-100 p-3 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg'
                 placeholder="tu@email.com"
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -71,7 +71,7 @@ export default function LoginForm() {
             <View className='w-[90%] mt-10'>
               <Text className='my-1 text-sm font-medium'>Contraseña</Text>
               <TextInput
-                className='w-full bg-sky-100 p-3 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg'
                 placeholder="••••••••"
                 autoCapitalize="none"
                 secureTextEntry
@@ -88,7 +88,7 @@ export default function LoginForm() {
       <View className='items-center'>
         <TouchableOpacity onPress={handleSubmit(onSubmit)}
           disabled={isPending || !isFormFilled}
-          className={isPending || !isFormFilled ? "bg-gray-400 p-3 rounded-lg w-[90%] mb-3" : "bg-blue-500 p-3 rounded-lg w-[90%] mb-3"}
+          className={isPending || !isFormFilled ? "bg-gray-400 p-4 rounded-lg w-[90%] mb-3" : "bg-blue-500 p-4 rounded-lg w-[90%] mb-3"}
         >
           {isPending ?
             <ActivityIndicator size={"small"} /> :
