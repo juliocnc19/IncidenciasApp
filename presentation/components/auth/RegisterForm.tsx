@@ -1,19 +1,18 @@
-import { View, Text, TextInput, StyleSheet, Pressable, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { InputRegister } from '../../../utils/types/InputRegister';
+import { InputRegisterType } from '../../../utils/types/InputRegisterType';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userRegisterSchema } from '../../../utils/schemas/userRegisterSchema';
-import { backgroundColors, fontColors } from '../../theme/colors';
-import { useRegisterUser } from '../../hooks/userRegisterUser';
+import { useRegisterUser } from '../../hooks/auth/userRegisterUser';
 import { useRouter } from 'expo-router';
-import { saveToken } from '../../../utils/lib/saveToken';
 import { useState } from 'react';
-import MessageError from './MessageError';
+import MessageError from '../shared/MessageError';
 import { authStorage } from '../../../data/storage/authStorage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const RegisterForm = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm<InputRegister>({
+export default function RegisterForm() {
+  const { control, handleSubmit, formState: { errors }, watch } = useForm<InputRegisterType>({
     resolver: zodResolver(userRegisterSchema)
   });
 
@@ -21,13 +20,22 @@ const RegisterForm = () => {
   const router = useRouter()
   const [message, setMessage] = useState<string>("")
   const { setUser } = authStorage()
+  const formValues = watch();
+  const isFormFilled = formValues.first_name?.length > 0 &&
+    formValues.last_name?.length > 0 &&
+    formValues.cedula?.length > 0 &&
+    formValues.email?.length > 0 &&
+    formValues.username?.length > 0 &&
+    formValues.password?.length > 0 &&
+    formValues.repet_password?.length > 0;
 
-  const onSubmit = async (data: InputRegister) => {
-    mutate(data, {
-      onSuccess: async (response) => {
-        setUser(response.data)
-        await saveToken(response.token)
-        router.push("/(main)/dashboard")
+
+  const onSubmit = async (input: InputRegisterType) => {
+    mutate(input, {
+      onSuccess: async (data) => {
+        setUser(data.data)
+        await AsyncStorage.setItem("authToken", data.token)
+        router.push("/dashboard")
       },
       onError: (err: any) => {
         setMessage(err.response.data.error)
@@ -36,23 +44,44 @@ const RegisterForm = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Registro</Text>
+    <View className='flex-1 justify-around w-screen items-center my-8'>
+      <Text className='text-4xl font-bold text-center text-blue-500'>Registro</Text>
       {isError && <MessageError message={message} />}
-      <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}
+        className='w-full'
+        contentContainerStyle={{ alignItems: "center" }}
+      >
         <Controller
           control={control}
           name="first_name"
           render={({ field: { value, onBlur, onChange } }) => (
-            <View style={styles.containerInput}>
-              <Text style={styles.textLabel}>Nombre</Text>
+            <View className='w-[90%] my-3'>
+              <Text className='my-1 text-sm font-medium'>Nombre</Text>
               <TextInput
-                style={styles.input}
+                className='w-full bg-sky-100 p-3 rounded-lg'
+                placeholder='Romulo'
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
               />
-              {errors.first_name && <Text style={styles.errorText}>{errors.first_name.message}</Text>}
+              {errors.first_name && <Text className='text-red-600'>{errors.first_name.message}</Text>}
+            </View>
+          )}
+        />
+        <Controller
+          control={control}
+          name="last_name"
+          render={({ field: { value, onBlur, onChange } }) => (
+            <View className='w-[90%] my-3'>
+              <Text className='my-1 text-sm font-medium'>Apellido</Text>
+              <TextInput
+                className='w-full bg-sky-100 p-3 rounded-lg'
+                placeholder='Gallegos'
+                value={value}
+                onBlur={onBlur}
+                onChangeText={onChange}
+              />
+              {errors.last_name && <Text className='text-red-600'>{errors.last_name.message}</Text>}
             </View>
           )}
         />
@@ -60,49 +89,37 @@ const RegisterForm = () => {
           control={control}
           name="cedula"
           render={({ field: { value, onBlur, onChange } }) => (
-            <View style={styles.containerInput}>
-              <Text style={styles.textLabel}>Cedula</Text>
+            <View className='w-[90%] my-3'>
+              <Text className='my-1 text-sm font-medium'>Cedula</Text>
               <TextInput
-                style={styles.input}
+                placeholder='Cedula de identidad'
+                className='w-full bg-sky-100 p-3 rounded-lg'
+                keyboardType='numeric'
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
               />
-              {errors.cedula && <Text style={styles.errorText}>{errors.cedula.message}</Text>}
+              {errors.cedula && <Text className='text-red-600'>{errors.cedula.message}</Text>}
             </View>
           )}
         />
 
-        <Controller
-          control={control}
-          name="last_name"
-          render={({ field: { value, onBlur, onChange } }) => (
-            <View style={styles.containerInput}>
-              <Text style={styles.textLabel}>Apellido</Text>
-              <TextInput
-                style={styles.input}
-                value={value}
-                onBlur={onBlur}
-                onChangeText={onChange}
-              />
-              {errors.last_name && <Text style={styles.errorText}>{errors.last_name.message}</Text>}
-            </View>
-          )}
-        />
         <Controller
           control={control}
           name="username"
           render={({ field: { value, onBlur, onChange } }) => (
-            <View style={styles.containerInput}>
-              <Text style={styles.textLabel}>Nombre de usuario</Text>
+            <View className='w-[90%] my-3'>
+              <Text className='my-1 text-sm font-medium'>Nombre de usuario</Text>
               <TextInput
-                style={styles.input}
+                className='w-full bg-sky-100 p-3 rounded-lg'
+                placeholder='ejemplo123'
+                autoCapitalize="none"
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
               />
 
-              {errors.username && <Text style={styles.errorText}>{errors.username.message}</Text>}
+              {errors.username && <Text className='text-red-600'>{errors.username.message}</Text>}
             </View>
           )}
         />
@@ -110,15 +127,18 @@ const RegisterForm = () => {
           control={control}
           name="email"
           render={({ field: { value, onBlur, onChange } }) => (
-            <View style={styles.containerInput}>
-              <Text style={styles.textLabel}>Correo Electronico</Text>
+            <View className='w-[90%] my-3'>
+              <Text className='my-1 text-sm font-medium'>Correo Electronico</Text>
               <TextInput
-                style={styles.input}
+                className='w-full bg-sky-100 p-3 rounded-lg'
+                placeholder='ejemplo@ejemplo.com'
+                keyboardType='email-address'
+                autoCapitalize='none'
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
               />
-              {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
+              {errors.email && <Text className='text-red-600'>{errors.email.message}</Text>}
             </View>
           )}
         />
@@ -126,16 +146,18 @@ const RegisterForm = () => {
           control={control}
           name="password"
           render={({ field: { value, onBlur, onChange } }) => (
-            <View style={styles.containerInput}>
-              <Text style={styles.textLabel}>Contraseña</Text>
+            <View className='w-[90%] my-3'>
+              <Text className='my-1 text-sm font-medium'>Contraseña</Text>
               <TextInput
-                style={styles.input}
+                className='w-full bg-sky-100 p-3 rounded-lg'
+                placeholder="••••••••"
+                autoCapitalize="none"
                 secureTextEntry
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
               />
-              {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
+              {errors.password && <Text className='text-red-600'>{errors.password.message}</Text>}
             </View>
           )}
         />
@@ -143,83 +165,33 @@ const RegisterForm = () => {
           control={control}
           name="repet_password"
           render={({ field: { value, onBlur, onChange } }) => (
-            <View style={styles.containerInput}>
-              <Text style={styles.textLabel}>Repetir contraseña</Text>
+            <View className='w-[90%] my-3'>
+              <Text className='my-1 text-sm font-medium'>Repetir contraseña</Text>
               <TextInput
-                style={styles.input}
+                className='w-full bg-sky-100 p-3 rounded-lg'
+                placeholder="••••••••"
+                autoCapitalize="none"
                 secureTextEntry
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
               />
-              {errors.repet_password && <Text style={styles.errorText}>{errors.repet_password.message}</Text>}
+              {errors.repet_password && <Text className='text-red-600'>{errors.repet_password.message}</Text>}
             </View>
           )}
         />
       </ScrollView>
-      <Pressable onPress={handleSubmit(onSubmit)}
-        style={({ pressed }) => [{
-          backgroundColor: pressed ? backgroundColors.ternary : backgroundColors.secondary
-        },
-        styles.button
-        ]}
+      <TouchableOpacity onPress={handleSubmit(onSubmit)}
+        disabled={isPending || !isFormFilled}
+        className={isPending || !isFormFilled ? "bg-gray-400 p-3 rounded-lg w-[90%] mb-3" : "bg-blue-500 p-3 rounded-lg w-[90%] mb-3"}
+
       >
         {isPending ?
-          <ActivityIndicator size={"small"} color={backgroundColors.primary} /> :
-          <Text style={styles.buttonText}>Enviar</Text>
+          <ActivityIndicator size={"small"} /> :
+          <Text className='text-center text-white font-semibold'>Enviar</Text>
         }
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "90%",
-  },
-  scrollContainer: {
-    height: "40%"
-  },
-  button: {
-    marginBottom: 10,
-    padding: 19,
-    borderRadius: 10,
-  },
-  buttonText: {
-    color: fontColors.ternary,
-    fontWeight: 500,
-    textAlign: 'center',
-  },
-  input: {
-    height: 55,
-    padding: 12,
-    borderWidth: 2,
-    borderRadius: 10,
-    borderColor: fontColors.secondary,
-    marginTop: 2
-  },
-  title: {
-    fontSize: 36,
-    fontWeight: 500,
-    textAlign: "center",
-    color: fontColors.secondary,
-  },
-  containerInput: {
-    marginVertical: 10
-  },
-  textLabel: {
-    fontSize: 16,
-    fontWeight: 500,
-    color: fontColors.secondary
-  },
-  errorText: {
-    fontSize: 13,
-    color: fontColors.error,
-    fontWeight: 500
-  },
-})
-
-
-
-export default RegisterForm

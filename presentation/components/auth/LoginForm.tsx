@@ -6,13 +6,13 @@ import LinkRegister from './LinkRegister';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userLoginSchema } from '../../../utils/schemas/userLoginSchema';
 import { useLoginUser } from '../../hooks/auth/useLoginUser';
-import MessageError from './MessageError';
+import MessageError from '../shared/MessageError';
 import { useRouter } from 'expo-router';
 import { authStorage } from '../../../data/storage/authStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function LoginForm(){
-  const { control, handleSubmit, formState: { errors } } = useForm<LoginInputType>({
+export default function LoginForm() {
+  const { control, handleSubmit, formState: { errors }, watch } = useForm<LoginInputType>({
     resolver: zodResolver(userLoginSchema),
   });
 
@@ -20,6 +20,8 @@ export default function LoginForm(){
   const { isPending, isError, mutate } = useLoginUser()
   const router = useRouter()
   const [message, setMessage] = useState<string>("")
+  const formValues = watch();
+  const isFormFilled = formValues.email?.length > 0 && formValues.password?.length > 0;
 
   const onSubmit = async (input: LoginInputType) => {
     mutate(input, {
@@ -36,25 +38,29 @@ export default function LoginForm(){
 
 
   return (
-    <View>
-      <View>
-        <Text>BIENVENIDO</Text>
-        <Text>Para continuar inicie sesion</Text>
+    <View className='flex-1 justify-around w-screen'>
+      <View className='items-center'>
+        <Text className='text-4xl font-bold text-center text-blue-500'>BIENVENIDO</Text>
+        <Text className='text-center'>Para continuar inicie sesion</Text>
+        {isError && <MessageError message={message} />}
       </View>
-      <View>
+      <View className='items-center'>
         <Controller
           control={control}
           name="email"
           render={({ field: { value, onBlur, onChange } }) => (
-            <View>
-              <Text>Email</Text>
+            <View className='w-[90%]'>
+              <Text className='my-1 text-sm font-medium'>Email</Text>
               <TextInput
-                autoComplete='email'
+                className='w-full bg-sky-100 p-3 rounded-lg'
+                placeholder="tu@email.com"
+                keyboardType="email-address"
+                autoCapitalize="none"
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
               />
-              {errors.email && <Text>{errors.email.message}</Text>}
+              {errors.email && <Text className='text-red-600'>{errors.email.message}</Text>}
             </View>
           )}
         />
@@ -62,28 +68,31 @@ export default function LoginForm(){
           control={control}
           name="password"
           render={({ field: { value, onBlur, onChange } }) => (
-            <View
-            >
-              <Text>Contraseña</Text>
+            <View className='w-[90%] mt-10'>
+              <Text className='my-1 text-sm font-medium'>Contraseña</Text>
               <TextInput
+                className='w-full bg-sky-100 p-3 rounded-lg'
+                placeholder="••••••••"
+                autoCapitalize="none"
                 secureTextEntry
                 value={value}
                 autoComplete='password'
                 onBlur={onBlur}
                 onChangeText={onChange}
               />
-              {errors.password && <Text>{errors.password.message}</Text>}
+              {errors.password && <Text className='text-red-600'>{errors.password.message}</Text>}
             </View>
           )}
         />
       </View>
-      <View>
-        {isError && <MessageError message={message} />}
+      <View className='items-center'>
         <TouchableOpacity onPress={handleSubmit(onSubmit)}
+          disabled={isPending || !isFormFilled}
+          className={isPending || !isFormFilled ? "bg-gray-400 p-3 rounded-lg w-[90%] mb-3" : "bg-blue-500 p-3 rounded-lg w-[90%] mb-3"}
         >
           {isPending ?
             <ActivityIndicator size={"small"} /> :
-            <Text>Iniciar Sesión</Text>
+            <Text className='text-center text-white font-semibold'>Iniciar Sesión</Text>
           }
         </TouchableOpacity>
         <LinkRegister />

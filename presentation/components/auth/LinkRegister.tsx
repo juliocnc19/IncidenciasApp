@@ -3,12 +3,13 @@ import { View, Text } from "react-native"
 
 export default function LinkRegister() {
   return (
-    <View>
+    <View className="my-2">
       <Text>
         ¿Aun no tienes cuenta?
         <Link
-          href="/(auth)/register"
-        > Registrate</Link>
+          className="text-blue-500"
+          href="/register"
+        >  Registrate</Link>
       </Text>
     </View>
   )

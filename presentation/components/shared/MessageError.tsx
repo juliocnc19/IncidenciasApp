@@ -2,8 +2,8 @@ import { Text,View } from "react-native"
 
 const MessageError = ({ message }: { message: string }) => {
   return (
-    <View>
-      <Text>{message}</Text>
+    <View className="p-2 rounded-lg bg-red-50 w-3/4 m-2">
+      <Text className="text-red-500 text-center">{message}</Text>
     </View>
   )
 }
