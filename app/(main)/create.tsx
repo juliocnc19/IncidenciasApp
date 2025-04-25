@@ -2,6 +2,6 @@ import { Text } from "react-native"
 
 export default function Create(){
   return (
-  <Text>Register</Text>
+  <Text>Createeeeee</Text>
   )
 }
