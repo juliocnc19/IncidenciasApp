@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getIncidentsByUser } from "../../data/api/getIncidentsByUser";
-import User from "../../core/models/User";
+import { getIncidentsByUser } from "../../../data/api/getIncidentsByUser";
+import User from "../../../core/models/User";
 
 export const useGetIncidentsByUser = (user_id:User['id'])=>{
   return useQuery({

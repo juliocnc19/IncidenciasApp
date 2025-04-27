@@ -1,7 +1,10 @@
-import { Text } from "react-native"
+import { View } from "react-native"
+import CreateForm from "../../presentation/components/main/CreateForm"
 
-export default function Create(){
+export default function Create() {
   return (
-  <Text>Createeeeee</Text>
+    <View className="flex-1 bg-white">
+      <CreateForm />
+    </View>
   )
 }

@@ -4,11 +4,11 @@ import Animated from "react-native-reanimated";
 
 export default function MainLayout() {
   return (
-    <Tabs initialRouteName="dashboard"
-    >
+    <Tabs initialRouteName="dashboard">
       <Tabs.Screen name="dashboard"
         options={{
           title: "Incidencias",
+          animation: "shift",
           headerShown: false,
           tabBarIcon: ({ focused, color }) => (
             <Animated.View style={{
@@ -23,6 +23,7 @@ export default function MainLayout() {
         options={{
           title: "Nueva",
           headerShown: false,
+          animation: "shift",
           tabBarIcon: ({ focused, color }) => (
             <Animated.View style={{
               transform: [{ scale: focused ? 1.2 : 1 }]

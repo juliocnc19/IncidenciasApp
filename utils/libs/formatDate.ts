@@ -1,4 +1,4 @@
-export const formatData = (dateISO: string): string => {
+export const formatDate = (dateISO: string): string => {
   const date = new Date(dateISO)
   const day = date.getDate()
   const month = date.getMonth() + 1
