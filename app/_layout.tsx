@@ -37,6 +37,7 @@ export default function Layout() {
         >
           <Stack.Screen name="(views)" options={{ headerShown: false }} />
           <Stack.Screen name="(main)" options={{ headerShown: false }} />
+          <Stack.Screen name="(web)" options={{ headerShown: false }} />
         </Stack>
       </SafeAreaView>
     </QueryClientProvider>

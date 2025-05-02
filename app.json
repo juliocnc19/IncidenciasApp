@@ -20,14 +20,26 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.juliocnc19.IncidenciasApp"
+      "package": "com.juliocnc19.IncidenciasApp",
+      "permissions": [
+        "INTERNET"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "ios": { /* ... */},
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
     ],
     "extra": {
       "router": {
