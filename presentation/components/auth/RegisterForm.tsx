@@ -35,7 +35,7 @@ export default function RegisterForm() {
       onSuccess: async (data) => {
         setUser(data.data)
         await AsyncStorage.setItem("authToken", data.token)
-        router.push("/dashboard")
+        router.replace("/dashboard")
       },
       onError: (err: any) => {
         setMessage(err.response.data.error)

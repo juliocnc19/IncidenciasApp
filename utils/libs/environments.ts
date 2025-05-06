@@ -6,7 +6,7 @@ const envSchema = z.object({
 
 function environments() {
   const parsed = envSchema.safeParse({
-    EXPO_PUBLIC_API_URL: "http://172.17.12.49:3004"
+    EXPO_PUBLIC_API_URL: "http://192.168.1.31:3004"
   });
 
   if (!parsed.success) {

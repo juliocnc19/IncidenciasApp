@@ -1,4 +1,4 @@
-import { View } from "react-native-reanimated/lib/typescript/Animated";
+import { View } from "react-native";
 
 export default function IndexWeb() {
   return (

@@ -6,12 +6,12 @@ export default interface Incident {
   id: number
   title: string
   description: string
-  status_id: 1|2|3
+  status_id: 1 | 2 | 3 | 4
   response: string
   user_id: number
-  user:User
+  user: User
   created_at: string
   updated_at: string
-  attachment:Attachment[]
-  status:Status
+  attachment: Attachment[]
+  status: Status
 }
