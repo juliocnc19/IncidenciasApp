@@ -7,6 +7,7 @@ import { StatusBar } from "expo-status-bar"
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync()
 
@@ -14,6 +15,7 @@ export default function Layout() {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/Lato-Regular.ttf'),
   });
+  const { top } = useSafeAreaInsets()
 
   useEffect(() => {
     if (loaded) {
@@ -28,16 +30,14 @@ export default function Layout() {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaView className="flex-1">
-        <StatusBar style="auto" />
+        <StatusBar style="auto"/>
         <Stack
           screenOptions={{
-            headerShown:false,
-            animation:"fade"
+            headerShown: false,
+            animation: "fade"
           }}
         >
           <Stack.Screen name="(views)" options={{ headerShown: false }} />
-          <Stack.Screen name="(main)" options={{ headerShown: false }} />
-          <Stack.Screen name="(web)" options={{ headerShown: false }} />
         </Stack>
       </SafeAreaView>
     </QueryClientProvider>

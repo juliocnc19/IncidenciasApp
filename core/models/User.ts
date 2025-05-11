@@ -8,7 +8,6 @@ export default interface User {
   email: string
   username: string
   password: string
-  avatar_url: string
   role_id: string
   created_at: string
   updated_at: string

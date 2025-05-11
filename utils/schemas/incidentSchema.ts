@@ -1,13 +1,10 @@
 import { z } from "zod";
 import { typeIncidents } from "../constans/typeIncidents";
 
-const options = [
-  typeIncidents[0].out,
-  typeIncidents[1].out
-] as const
+const incidentTypes = Object.values(typeIncidents).map(type => type.out);
 
 export const incidentSchema = z.object({
-  title: z.enum(options, {
+  title: z.enum(incidentTypes as [string, ...string[]], {
     required_error: "Por favor selecciona un tipo",
     invalid_type_error: "Título inválido",
   }),

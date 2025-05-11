@@ -76,7 +76,6 @@ export default function LoginForm() {
                 autoCapitalize="none"
                 secureTextEntry
                 value={value}
-                autoComplete='password'
                 onBlur={onBlur}
                 onChangeText={onChange}
               />
