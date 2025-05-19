@@ -10,7 +10,7 @@ export const statusTag = {
     "color": "#2aff19"
   },
   3: {
-    "textual": "refused",
+    "textual": "rejected",
     "out": "Rechazada",
     "color": "#ff1e1e"
   },
