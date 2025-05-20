@@ -38,7 +38,6 @@ export default function CreateForm() {
 
     mutate(bodyApi, {
       onSuccess: async (data) => {
-        console.log(data)
         setSuccessMessage("Incidencia Creada")
         setTimeout(() => {
           reset()
