@@ -1,5 +1,5 @@
 import { authStorage } from "../../data/storage/authStorage"
-import { useGetIncidentsByUser } from "../../presentation/hooks/main/useGetIncidentsByUser"
+import { useGetIncidentsByUser } from "../../presentation/hooks/incidents/useGetIncidentsByUser"
 import { ActivityIndicator, View, Text } from "react-native"
 import ListIncident from "../../presentation/components/main/ListIncidents"
 import HeaderApp from "../../presentation/components/shared/HeaderApp"

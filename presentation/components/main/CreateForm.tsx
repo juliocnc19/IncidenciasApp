@@ -1,51 +1,65 @@
 import { View, Text, TextInput, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRegisterUser } from '../../hooks/auth/userRegisterUser';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import MessageError from '../shared/MessageError';
-import { authStorage } from '../../../data/storage/authStorage';
 import { InputIncidentType } from '../../../utils/types/InputIncidentType';
 import { incidentSchema } from '../../../utils/schemas/incidentSchema';
 import { typeIncidents } from '../../../utils/constans/typeIncidents';
+import { useCreateIncident } from '../../hooks/incidents/useCreateIncident';
+import MessageSuccess from '../shared/MessageSuccess';
+import { authStorage } from '../../../data/storage/authStorage';
 
 export default function CreateForm() {
   const { control, handleSubmit, formState: { errors }, watch, reset } = useForm<InputIncidentType>({
     resolver: zodResolver(incidentSchema)
   });
 
-  const { isPending, isError, mutate } = useRegisterUser()
+  const { isPending, isError, mutate } = useCreateIncident()
   const router = useRouter()
+  const { user } = authStorage()
   const [message, setMessage] = useState<string>("")
-  const { setUser } = authStorage()
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const formValues = watch();
   const isFormFilled = formValues.title?.length > 0 && formValues.description?.length > 0;
 
   const onSubmit = async (input: InputIncidentType) => {
     console.log(input)
     
-    /*
-    mutate(input, {
+
+    const bodyApi = {
+      title: input.title,
+      description: input.description,
+      status_id: 4,
+      response: "",
+      user_id: user!.id
+    }
+
+    mutate(bodyApi, {
       onSuccess: async (data) => {
-        setUser(data.data)
-        await AsyncStorage.setItem("authToken", data.token)
-        router.push("/dashboard")
-        reset() // Reset form after successful submission
+        console.log(data)
+        setSuccessMessage("Incidencia Creada")
+        setTimeout(() => {
+          reset()
+          setSuccessMessage(null)
+          router.navigate("/dashboard")
+        }, 1500)
       },
       onError: (err: any) => {
         setMessage(err.response.data.error)
+        setTimeout(() => {
+          setMessage("")
+        }, 1500)
       }
     })
-    */
-    // Temporalmente, reseteamos el formulario después del console.log
-    reset()
   };
 
   return (
     <View className='flex-1 justify-around w-screen items-center bg-slate-100 my-8'>
       <Text className='text-3xl font-bold text-center text-blue-500'>Nueva Incidencia</Text>
       {isError && <MessageError message={message} />}
+      {successMessage && <MessageSuccess message={successMessage} />}
       <ScrollView showsVerticalScrollIndicator={false}
         className='w-full'
         contentContainerStyle={{ alignItems: "center" }}
@@ -62,18 +76,16 @@ export default function CreateForm() {
                     key={type.out}
                     onPress={() => onChange(type.out)}
                     onBlur={onBlur}
-                    className={`flex-1 mx-1 p-4 rounded-lg ${
-                      value === type.out 
-                        ? 'bg-blue-500' 
+                    className={`flex-1 mx-1 p-4 rounded-lg ${value === type.out
+                        ? 'bg-blue-500'
                         : 'bg-sky-100'
-                    }`}
-                  >
-                    <Text 
-                      className={`text-center font-medium ${
-                        value === type.out 
-                          ? 'text-white' 
-                          : 'text-gray-700'
                       }`}
+                  >
+                    <Text
+                      className={`text-center font-medium ${value === type.out
+                          ? 'text-white'
+                          : 'text-gray-700'
+                        }`}
                     >
                       {type.out}
                     </Text>

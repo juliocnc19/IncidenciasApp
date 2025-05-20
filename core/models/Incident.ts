@@ -6,7 +6,7 @@ export default interface Incident {
   id: number
   title: string
   description: string
-  status_id: 1 | 2 | 3 | 4
+  status_id: number
   response: string
   user_id: number
   user: User
