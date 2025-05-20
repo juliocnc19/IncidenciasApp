@@ -1,9 +1,13 @@
-import { View, Text, TouchableOpacity, FlatList } from "react-native"
+import { View, Text, TouchableOpacity, FlatList, ActivityIndicator } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 import { useRouter } from "expo-router"
 import Attachment from "../../../core/models/Attachment"
 import * as DocumentPicker from 'expo-document-picker'
 import { useState } from "react"
+import { useUploadIncident } from "../../hooks/incidents/useUploadIncident"
+import MessageError from "../shared/MessageError"
+import MessageSuccess from "../shared/MessageSuccess"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface AttachmentsListProps {
   attachments?: Attachment[]
@@ -21,8 +25,15 @@ interface SelectedFile {
 export default function AttachmentsList({ attachments, incidentId, statusId }: AttachmentsListProps) {
   const router = useRouter()
   const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([])
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const uploadIncidentMutation = useUploadIncident()
+  const loading = uploadIncidentMutation.isPending
+  const queryClient = useQueryClient()
 
   const handleSelectFiles = async () => {
+    if (loading) return
     try {
       const result = await DocumentPicker.getDocumentAsync({
         type: '*/*',
@@ -47,29 +58,56 @@ export default function AttachmentsList({ attachments, incidentId, statusId }: A
       setSelectedFiles(prev => [...prev, ...newFiles])
     } catch (error) {
       console.error('Error selecting files:', error)
-      alert('Error al seleccionar archivos')
+      setErrorMessage('Error al seleccionar archivos')
     }
   }
 
   const handleRemoveFile = (index: number) => {
+    if (loading) return
     setSelectedFiles(prev => prev.filter((_, i) => i !== index))
   }
 
   const handleUpload = () => {
-    console.log("Uploading files:", selectedFiles)
+    if (loading) return
+    setErrorMessage(null)
+    setSuccessMessage(null)
+    uploadIncidentMutation.mutate(
+      {
+        files: selectedFiles,
+        incident_id: incidentId
+      },
+      {
+        onSuccess: () => {
+          setSuccessMessage('Archivos subidos correctamente')
+          setSelectedFiles([])
+          queryClient.invalidateQueries({ queryKey: ['incidents'] })
+          setTimeout(() => setSuccessMessage(null), 2000)
+        },
+        onError: (err: any) => {
+          setErrorMessage(err?.response?.data?.detail || 'Error al subir archivos')
+          setTimeout(() => setErrorMessage(null), 2500)
+        }
+      }
+    )
   }
 
+  // Solo mostrar la funcionalidad de subida si statusId === 4
   const canUpload = statusId === 4
 
   return (
     <View className="flex-1 min-h-[300px]">
-        
+      {/* Mensajes de éxito y error */}
+      {successMessage && <MessageSuccess message={successMessage} />}
+      {errorMessage && <MessageError message={errorMessage} />}
+
+      {/* Header y botón seleccionar */}
       <View className="flex-row justify-between items-center mb-4">
         <Text className="text-gray-700 text-lg font-semibold">Archivos adjuntos</Text>
-        {canUpload && attachments && attachments.length === 0 && (
+        {canUpload && (
           <TouchableOpacity
             onPress={handleSelectFiles}
-            className="bg-blue-500 px-4 py-2 rounded-lg flex-row items-center"
+            className={`bg-blue-500 px-4 py-2 rounded-lg flex-row items-center ${loading ? 'opacity-50' : ''}`}
+            disabled={loading}
           >
             <Ionicons name="add-circle-outline" size={20} color="white" />
             <Text className="text-white font-semibold ml-1">Seleccionar</Text>
@@ -94,7 +132,7 @@ export default function AttachmentsList({ attachments, incidentId, statusId }: A
               </TouchableOpacity>
             </TouchableOpacity>
           )}
-          className="max-h-[200px]"
+          className="max-h-[350px]"
         />
       )}
 
@@ -116,13 +154,14 @@ export default function AttachmentsList({ attachments, incidentId, statusId }: A
                 </View>
                 <TouchableOpacity 
                   onPress={() => handleRemoveFile(index)}
-                  className="p-2"
+                  className={`p-2 ${loading ? 'opacity-50' : ''}`}
+                  disabled={loading}
                 >
                   <Ionicons name="close-circle" size={24} color="#ef4444" />
                 </TouchableOpacity>
               </View>
             )}
-            className="max-h-[200px]"
+            className="max-h-[350px]"
           />
         </View>
       )}
@@ -142,10 +181,15 @@ export default function AttachmentsList({ attachments, incidentId, statusId }: A
         <View className="absolute left-0 right-0 bottom-0 bg-transparent p-4 items-center z-10">
           <TouchableOpacity
             onPress={handleUpload}
-            className="bg-green-500 px-6 py-3 rounded-lg flex-row items-center justify-center w-full"
+            className={`bg-green-500 px-6 py-3 rounded-lg flex-row items-center justify-center w-full ${loading ? 'opacity-50' : ''}`}
+            disabled={loading}
           >
-            <Ionicons name="cloud-upload-outline" size={24} color="white" />
-            <Text className="text-white font-semibold ml-2">Subir archivos</Text>
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Ionicons name="cloud-upload-outline" size={24} color="white" />
+            )}
+            <Text className="text-white font-semibold ml-2">{loading ? 'Subiendo...' : 'Subir archivos'}</Text>
           </TouchableOpacity>
         </View>
       )}
