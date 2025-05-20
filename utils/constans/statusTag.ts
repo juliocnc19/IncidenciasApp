@@ -6,7 +6,7 @@ export const statusTag = {
   },
   2: {
     "textual": "resolved",
-    "out": "Aprovada",
+    "out": "Aprobada",
     "color": "#2aff19"
   },
   3: {
