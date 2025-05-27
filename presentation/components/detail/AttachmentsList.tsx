@@ -1,6 +1,5 @@
 import { View, Text, TouchableOpacity, FlatList, ActivityIndicator } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
-import { useRouter } from "expo-router"
 import Attachment from "../../../core/models/Attachment"
 import * as DocumentPicker from 'expo-document-picker'
 import { useState } from "react"
@@ -23,7 +22,6 @@ interface SelectedFile {
 }
 
 export default function AttachmentsList({ attachments, incidentId, statusId }: AttachmentsListProps) {
-  const router = useRouter()
   const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([])
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -91,16 +89,13 @@ export default function AttachmentsList({ attachments, incidentId, statusId }: A
     )
   }
 
-  // Solo mostrar la funcionalidad de subida si statusId === 4
   const canUpload = statusId === 4
 
   return (
     <View className="flex-1 min-h-[300px]">
-      {/* Mensajes de éxito y error */}
       {successMessage && <MessageSuccess message={successMessage} />}
       {errorMessage && <MessageError message={errorMessage} />}
 
-      {/* Header y botón seleccionar */}
       <View className="flex-row justify-between items-center mb-4">
         <Text className="text-gray-700 text-lg font-semibold">Archivos adjuntos</Text>
         {canUpload && (
@@ -115,28 +110,23 @@ export default function AttachmentsList({ attachments, incidentId, statusId }: A
         )}
       </View>
 
-      {/* Lista de adjuntos existentes */}
       {attachments && attachments.length > 0 && (
         <FlatList
           data={attachments}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity className="bg-white p-4 rounded-lg mb-2 flex-row items-center">
+            <View className="bg-white p-4 rounded-lg mb-2 flex-row items-center">
               <Ionicons name="document" size={24} color="#3b82f6" />
               <View className="ml-3 flex-1">
-                <Text className="text-gray-800 font-medium">{item.attachment_path}</Text>
+                <Text className="text-gray-800 font-medium">{item.attachment_path.replace('uploads/', '')}</Text>
                 <Text className="text-gray-500 text-sm">{item.created_at}</Text>
               </View>
-              <TouchableOpacity className="p-2">
-                <Ionicons name="download-outline" size={24} color="#3b82f6" />
-              </TouchableOpacity>
-            </TouchableOpacity>
+            </View>
           )}
           className="max-h-[350px]"
         />
       )}
 
-      {/* Lista de archivos seleccionados para subir */}
       {canUpload && selectedFiles.length > 0 && (
         <View className="flex-1">
           <Text className="text-gray-700 text-lg font-semibold mb-2 mt-4">Archivos para subir</Text>
@@ -166,7 +156,6 @@ export default function AttachmentsList({ attachments, incidentId, statusId }: A
         </View>
       )}
 
-      {/* Mensaje vacío solo si no hay adjuntos y no hay archivos seleccionados o subida deshabilitada */}
       {(!attachments || attachments.length === 0) && (!canUpload || selectedFiles.length === 0) && (
         <View className="flex-1 items-center justify-center p-4">
           <Ionicons name="document-outline" size={48} color="#94a3b8" />
@@ -176,7 +165,6 @@ export default function AttachmentsList({ attachments, incidentId, statusId }: A
         </View>
       )}
 
-      {/* Botón fijo para subir archivos */}
       {canUpload && selectedFiles.length > 0 && (
         <View className="absolute left-0 right-0 bottom-0 bg-transparent p-4 items-center z-10">
           <TouchableOpacity

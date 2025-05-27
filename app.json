@@ -23,7 +23,9 @@
       },
       "package": "com.juliocnc19.IncidenciasApp",
       "permissions": [
-        "INTERNET"
+        "INTERNET",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE"
       ]
     },
     "web": {
