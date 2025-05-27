@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { LoginInputType } from '../../../utils/types/InputLoginType';
 import LinkRegister from './LinkRegister';
@@ -27,7 +27,7 @@ export default function LoginForm() {
     mutate(input, {
       onSuccess: async (data) => {
         setUser(data.data)
-        await AsyncStorage.setItem("authToken", data.token)
+        await AsyncStorage.setItem("authToken", data.token || "")
         router.replace('/dashboard')
       },
       onError: (err: any) => {
@@ -38,7 +38,7 @@ export default function LoginForm() {
 
 
   return (
-    <View className='flex-1 justify-around w-screen'>
+    <KeyboardAvoidingView behavior='padding' className='flex-1 justify-around w-screen'>
       <View className='items-center'>
         <Text className='text-4xl font-bold text-center text-blue-500'>BIENVENIDO</Text>
         <Text className='text-center'>Para continuar inicie sesion</Text>
@@ -96,7 +96,7 @@ export default function LoginForm() {
         </TouchableOpacity>
         <LinkRegister />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

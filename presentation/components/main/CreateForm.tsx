@@ -13,7 +13,11 @@ import { authStorage } from '../../../data/storage/authStorage';
 
 export default function CreateForm() {
   const { control, handleSubmit, formState: { errors }, watch, reset } = useForm<InputIncidentType>({
-    resolver: zodResolver(incidentSchema)
+    resolver: zodResolver(incidentSchema),
+    defaultValues: {
+      title: "Adicion",
+      description: ""
+    }
   });
 
   const { isPending, isError, mutate } = useCreateIncident()

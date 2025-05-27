@@ -1,4 +1,4 @@
-import { View, Text, TextInput, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ScrollView, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { InputRegisterType } from '../../../utils/types/InputRegisterType';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -34,7 +34,7 @@ export default function RegisterForm() {
     mutate(input, {
       onSuccess: async (data) => {
         setUser(data.data)
-        await AsyncStorage.setItem("authToken", data.token)
+        await AsyncStorage.setItem("authToken", data.token || "")
         router.replace("/dashboard")
       },
       onError: (err: any) => {
@@ -44,7 +44,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <View className='flex-1 justify-around w-screen items-center my-8'>
+    <KeyboardAvoidingView behavior='padding' className='flex-1 justify-around w-screen items-center my-8'>
       <Text className='text-4xl font-bold text-center text-blue-500'>Registro</Text>
       {isError && <MessageError message={message} />}
       <ScrollView showsVerticalScrollIndicator={false}
@@ -191,6 +191,6 @@ export default function RegisterForm() {
           <Text className='text-center text-white font-semibold'>Enviar</Text>
         }
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
