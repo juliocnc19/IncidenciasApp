@@ -15,6 +15,12 @@ export default function CardDetail({ incident }: { incident: Incident }) {
           <Text className="text-white font-semibold text-lg">Description</Text>
           <Text className="text-white">{incident.description}</Text>
         </View>
+        {![1, 4].includes(incident.status_id) && (
+        <View className="mb-6">
+          <Text className="font-semibold text-white">Respuesta</Text>
+          <Text className="text-white">{incident.response}</Text>
+        </View>
+        )}
         <View className="flex-row justify-between">
           <Text className="font-semibold text-white">Fecha</Text>
           <Text className="text-white">{formatDate(incident.created_at)}</Text>
