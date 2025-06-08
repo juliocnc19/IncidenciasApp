@@ -18,10 +18,10 @@ export default function ListIncident({ data, isError, error, refreshing, onRefre
   const { setIncidents, incidents } = incidentStorage()
 
   useEffect(() => {
-    if (!isError && data && data.length > 0) {
-      setIncidents(data)
+    if (!isError && typeof data !== 'undefined') {
+      setIncidents(data);
     }
-  }, [data])
+  }, [data, isError, setIncidents])
 
   return (
     <>

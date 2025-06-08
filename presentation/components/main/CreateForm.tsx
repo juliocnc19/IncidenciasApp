@@ -29,9 +29,7 @@ export default function CreateForm() {
   const isFormFilled = formValues.title?.length > 0 && formValues.description?.length > 0;
 
   const onSubmit = async (input: InputIncidentType) => {
-    console.log(input)
     
-
     const bodyApi = {
       title: input.title,
       description: input.description,
@@ -47,7 +45,7 @@ export default function CreateForm() {
           reset()
           setSuccessMessage(null)
           router.navigate("/dashboard")
-        }, 1500)
+        }, 1000)
       },
       onError: (err: any) => {
         setMessage(err.response.data.error)

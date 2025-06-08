@@ -82,6 +82,7 @@ export default function AttachmentsList({ attachments, incidentId, statusId }: A
           setTimeout(() => setSuccessMessage(null), 2000)
         },
         onError: (err: any) => {
+          console.log(err.response)
           setErrorMessage(err?.response?.data?.detail || 'Error al subir archivos')
           setTimeout(() => setErrorMessage(null), 2500)
         }
