@@ -40,8 +40,8 @@ export default function LoginForm() {
   return (
     <KeyboardAvoidingView behavior='padding' className='flex-1 justify-around w-screen'>
       <View className='items-center'>
-        <Text className='text-4xl font-bold text-center text-blue-500'>BIENVENIDO</Text>
-        <Text className='text-center'>Para continuar inicie sesion</Text>
+        <Text className='text-5xl font-bold text-center text-blue-500'>BIENVENIDO</Text>
+        <Text className='text-center text-gray-500'>Para continuar inicie sesion</Text>
         {isError && <MessageError message={message} />}
       </View>
       <View className='items-center'>
@@ -52,7 +52,7 @@ export default function LoginForm() {
             <View className='w-[90%]'>
               <Text className='my-1 text-sm font-medium'>Email</Text>
               <TextInput
-                className='w-full bg-sky-50 p-4 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg border border-gray-300 focus:border-blue-500'
                 placeholder="tu@email.com"
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -71,7 +71,7 @@ export default function LoginForm() {
             <View className='w-[90%] mt-10'>
               <Text className='my-1 text-sm font-medium'>Contraseña</Text>
               <TextInput
-                className='w-full bg-sky-50 p-4 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg border border-gray-300 focus:border-blue-500'
                 placeholder="••••••••"
                 autoCapitalize="none"
                 secureTextEntry
@@ -94,7 +94,7 @@ export default function LoginForm() {
             <Text className='text-center text-white font-semibold'>Iniciar Sesión</Text>
           }
         </TouchableOpacity>
-        <LinkRegister />
+        <LinkRegister isBack={false}/>
       </View>
     </KeyboardAvoidingView>
   );

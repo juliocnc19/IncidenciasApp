@@ -45,7 +45,7 @@ export default function CreateForm() {
           reset()
           setSuccessMessage(null)
           router.navigate("/dashboard")
-        }, 1000)
+        }, 700)
       },
       onError: (err: any) => {
         setMessage(err.response.data.error)
@@ -77,7 +77,7 @@ export default function CreateForm() {
                     key={type.out}
                     onPress={() => onChange(type.out)}
                     onBlur={onBlur}
-                    className={`flex-1 mx-1 p-4 rounded-lg ${value === type.out
+                    className={`flex-1 mx-1 p-4 rounded-lg border border-gray-300 ${value === type.out
                         ? 'bg-blue-500'
                         : 'bg-sky-100'
                       }`}
@@ -104,7 +104,7 @@ export default function CreateForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>description</Text>
               <TextInput
-                className='w-full bg-sky-100 p-4 rounded-lg h-3/5'
+                className='w-full bg-sky-100 p-4 rounded-lg h-3/5 border border-gray-300 focus:border-blue-500'
                 placeholder='Descripcion'
                 value={value}
                 onBlur={onBlur}

@@ -9,6 +9,7 @@ import { useState } from 'react';
 import MessageError from '../shared/MessageError';
 import { authStorage } from '../../../data/storage/authStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LinkRegister from './LinkRegister';
 
 
 export default function RegisterForm() {
@@ -56,9 +57,9 @@ export default function RegisterForm() {
           name="first_name"
           render={({ field: { value, onBlur, onChange } }) => (
             <View className='w-[90%] my-3'>
-              <Text className='my-1 text-sm font-medium'>Nombre</Text>
+              <Text className='my-1 text-sm font-medium '>Nombre</Text>
               <TextInput
-                className='w-full bg-sky-50 p-4 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg border border-gray-300 focus:border-blue-500'
                 placeholder='Romulo'
                 value={value}
                 onBlur={onBlur}
@@ -75,7 +76,7 @@ export default function RegisterForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>Apellido</Text>
               <TextInput
-                className='w-full bg-sky-50 p-4 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg border border-gray-300 focus:border-blue-500'
                 placeholder='Gallegos'
                 value={value}
                 onBlur={onBlur}
@@ -93,7 +94,7 @@ export default function RegisterForm() {
               <Text className='my-1 text-sm font-medium'>Cedula</Text>
               <TextInput
                 placeholder='Cedula de identidad'
-                className='w-full bg-sky-50 p-4 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg border border-gray-300 focus:border-blue-500'
                 keyboardType='numeric'
                 value={value}
                 onBlur={onBlur}
@@ -111,7 +112,7 @@ export default function RegisterForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>Nombre de usuario</Text>
               <TextInput
-                className='w-full bg-sky-50 p-4 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg border border-gray-300 focus:border-blue-500'
                 placeholder='ejemplo123'
                 autoCapitalize="none"
                 value={value}
@@ -130,7 +131,7 @@ export default function RegisterForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>Correo Electronico</Text>
               <TextInput
-                className='w-full bg-sky-50 p-4 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg border border-gray-300 focus:border-blue-500'
                 placeholder='ejemplo@ejemplo.com'
                 keyboardType='email-address'
                 autoCapitalize='none'
@@ -149,7 +150,7 @@ export default function RegisterForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>Contraseña</Text>
               <TextInput
-                className='w-full bg-sky-50 p-4 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg border border-gray-300 focus:border-blue-500'
                 placeholder="••••••••"
                 autoCapitalize="none"
                 secureTextEntry
@@ -168,7 +169,7 @@ export default function RegisterForm() {
             <View className='w-[90%] my-3'>
               <Text className='my-1 text-sm font-medium'>Repetir contraseña</Text>
               <TextInput
-                className='w-full bg-sky-50 p-4 rounded-lg'
+                className='w-full bg-sky-50 p-4 rounded-lg border border-gray-300 focus:border-blue-500'
                 placeholder="••••••••"
                 autoCapitalize="none"
                 secureTextEntry
@@ -191,6 +192,7 @@ export default function RegisterForm() {
           <Text className='text-center text-white font-semibold'>Enviar</Text>
         }
       </TouchableOpacity>
+      <LinkRegister isBack={true} />
     </KeyboardAvoidingView>
   );
 };
