@@ -1,5 +1,4 @@
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import HeaderApp from '../../../presentation/components/shared/HeaderApp';
 
 const notifications = [
@@ -39,19 +38,27 @@ const notifications = [
 
 export default function Notifications() {
   return (
-    <View className="flex-1 bg-slate-100">
+    <View className="flex-1 bg-white">
       <HeaderApp isBack={true} />
       
-      <View className="p-4">
-        <Text className="text-2xl font-bold text-gray-800 mb-4">Notificaciones</Text>
+      <View className="p-1">
+        <Text className="text-3xl font-bold text-blue-500 mb-4 text-center">Notificaciones</Text>
         
         <ScrollView showsVerticalScrollIndicator={false}>
           {notifications.map((notification) => (
             <TouchableOpacity
+              style={{
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              }}
               key={notification.id}
-              className={`mb-3 p-4 rounded-lg ${
-                notification.read ? 'bg-white' : 'bg-blue-50'
-              }`}
+              className="mb-3 p-4 rounded-lg bg-white mx-2"
             >
               <View className="flex-row justify-between items-start">
                 <View className="flex-1">

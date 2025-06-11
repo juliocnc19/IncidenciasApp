@@ -12,7 +12,7 @@ export default function Detail() {
   const incidentFind = incidents.find((i) => i.id == Number(params.id))
 
   return (
-    <View className="flex-1 bg-slate-100">
+    <View className="flex-1 bg-white">
       <HeaderApp isBack={true} />
       <View style={{ flex: 1, alignItems: "center", marginHorizontal: 10 }}>
         <CardDetail incident={incidentFind as Incident} />

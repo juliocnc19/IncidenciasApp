@@ -4,7 +4,6 @@ import { ActivityIndicator, View, Text } from "react-native"
 import ListIncident from "../../presentation/components/main/ListIncidents"
 import HeaderApp from "../../presentation/components/shared/HeaderApp"
 import { useState } from "react"
-import { queryClient } from "../../utils/libs/queryClient"
 
 export default function Dashboard() {
   const { user } = authStorage()
@@ -18,9 +17,9 @@ export default function Dashboard() {
   }
 
   return (
-    <View className="flex-1 bg-slate-100">
+    <View className="flex-1 bg-white">
       <HeaderApp isBack={false} />
-      <Text className="font-medium text-gray-600 text-2xl mx-2 my-5 text-center">Mis Incidencias</Text>
+      <Text className="font-bold text-blue-500 text-3xl mx-2 text-center">Mis Incidencias</Text>
       {(isLoading) ?
         <ActivityIndicator size={"large"} /> :
         <ListIncident 

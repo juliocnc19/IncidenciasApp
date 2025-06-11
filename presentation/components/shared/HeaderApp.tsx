@@ -26,21 +26,52 @@ export default function HeaderApp({ isBack }: { isBack: boolean }) {
         {!isBack ? (
           <>
             <TouchableOpacity 
+              style={{
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              }}
               onPress={toggleMenu}
-              className="p-1 border rounded-md border-gray-700 bg-white"
+              className="p-1 rounded-md  bg-white"
             >
-              <Ionicons name="menu" size={30} color={"#555"} />
+              <Ionicons name="menu" size={28} color={"#555"} />
             </TouchableOpacity>
             <TouchableOpacity 
+              style={{
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              }}
               onPress={goToNotifications}
-              className="p-1 border rounded-md border-gray-700 bg-white"
+              className="p-1 rounded-md bg-white"
             >
-              <Ionicons name="notifications" size={30} color={"#555"} />
+              <Ionicons name="notifications" size={28} color={"#555"} />
             </TouchableOpacity>
           </>
         ) : (
-          <TouchableOpacity onPress={onBack} className="p-1 border rounded-md border-gray-700 bg-white">
-            <Ionicons name="chevron-back" size={30} color={"#555"} />
+          <TouchableOpacity 
+          style={{
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+          }}
+          onPress={onBack} className="p-1 rounded-md bg-white">
+            <Ionicons name="chevron-back" size={28} color={"#555"} />
           </TouchableOpacity>
         )}
       </View>

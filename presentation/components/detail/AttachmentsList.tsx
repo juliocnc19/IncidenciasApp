@@ -7,6 +7,7 @@ import { useUploadIncident } from "../../hooks/incidents/useUploadIncident"
 import MessageError from "../shared/MessageError"
 import MessageSuccess from "../shared/MessageSuccess"
 import { useQueryClient } from "@tanstack/react-query"
+import { formatDate } from "../../../utils/libs/formatDate"
 
 interface AttachmentsListProps {
   attachments?: Attachment[]
@@ -116,11 +117,22 @@ export default function AttachmentsList({ attachments, incidentId, statusId }: A
           data={attachments}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <View className="bg-white p-4 rounded-lg mb-2 flex-row items-center">
+            <View 
+            style={{
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+            }}
+            className="bg-white p-3 rounded-lg mb-4 flex-row items-center mx-2">
               <Ionicons name="document" size={24} color="#3b82f6" />
               <View className="ml-3 flex-1">
                 <Text className="text-gray-800 font-medium">{item.attachment_path.replace('uploads/', '')}</Text>
-                <Text className="text-gray-500 text-sm">{item.created_at}</Text>
+                <Text className="text-gray-500 text-sm">{formatDate(item.created_at)}</Text>
               </View>
             </View>
           )}
