@@ -1,27 +1,35 @@
-import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-import { api } from './api';
+import * as Device from 'expo-device';
+import { Platform } from 'react-native';
 
-export async function registerForPushNotificationsAsync(userId:number) {
-  if (!Constants.isDevice) {
-    alert('Las notificaciones push requieren un dispositivo físico');
-    return;
+export async function registerForPushNotificationsAsync() {
+  let token;
+
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+
+    if (finalStatus !== 'granted') {
+      console.log('No se otorgaron permisos para notificaciones push');
+      return null;
+    }
+
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+  } else {
+    console.log('Debe usar un dispositivo físico');
   }
-  const { status: existingStatus } = await Notifications.getPermissionsAsync();
-  let finalStatus = existingStatus;
-  if (existingStatus !== 'granted') {
-    const { status } = await Notifications.requestPermissionsAsync();
-    finalStatus = status;
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+    });
   }
-  if (finalStatus !== 'granted') {
-    alert('No se concedió permiso para notificaciones');
-    return;
-  }
-  let { data: expoPushToken } = await Notifications.getExpoPushTokenAsync();
-  console.log('Expo Push Token:', expoPushToken);
-  await api.post('https://tu-servidor.com/api/register-token', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ userId, token: expoPushToken }),
-  });
+  return token;
 }
+
