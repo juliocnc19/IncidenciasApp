@@ -1,7 +1,7 @@
 
 export const typeIncidents = {
   "add":{
-    "out":"Adicion",
+    "out":"Adición",
     "attachemnt":[],
     "rules":[]
   },

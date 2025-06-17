@@ -15,7 +15,7 @@ export default function CreateForm() {
   const { control, handleSubmit, formState: { errors }, watch, reset } = useForm<InputIncidentType>({
     resolver: zodResolver(incidentSchema),
     defaultValues: {
-      title: "Adicion",
+      title: "Adición",
       description: ""
     }
   });
@@ -99,10 +99,10 @@ export default function CreateForm() {
           name="description"
           render={({ field: { value, onBlur, onChange } }) => (
             <View className='w-[90%] my-3'>
-              <Text className='my-1 text-sm font-medium'>Descripción</Text>
+              <Text className='my-1 text-sm font-medium'>Materias</Text>
               <TextInput
                 className='w-full bg-sky-50 p-4 rounded-lg h-3/5 border border-gray-300 focus:border-blue-500'
-                placeholder='Descripcion'
+                placeholder='Electiva V (1), Algebra bolena'
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -112,7 +112,7 @@ export default function CreateForm() {
               />
               <Text
                 className='text-gray-500 text-sm'
-              >Agregue una descripcion breve pero acorde, de tal forma que sea mas facil realizar una resolucion satisfactoria</Text>
+              >{`Agregue la lista de materias separadas por comas (si es adición, tambien agregar entre parentesis la sección, si es retiro, no basta este detalle)`}</Text>
               {errors.description && <Text className='text-red-600'>{errors.description.message}</Text>}
             </View>
           )}
