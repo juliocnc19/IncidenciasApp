@@ -10,6 +10,7 @@ import MessageError from '../shared/MessageError';
 import { authStorage } from '../../../data/storage/authStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinkRegister from './LinkRegister';
+import { useRegisterToken } from '../../hooks/auth/useTokenDevice';
 
 
 export default function RegisterForm() {
@@ -18,9 +19,10 @@ export default function RegisterForm() {
   });
 
   const { isPending, isError, mutate } = useRegisterUser()
+  const {mutate:mutateRegisterDeviceToken} = useRegisterToken()
   const router = useRouter()
   const [message, setMessage] = useState<string>("")
-  const { setUser } = authStorage()
+  const { setUser,deviceToken } = authStorage()
   const formValues = watch();
   const isFormFilled = formValues.first_name?.length > 0 &&
     formValues.last_name?.length > 0 &&
@@ -35,6 +37,19 @@ export default function RegisterForm() {
     mutate(input, {
       onSuccess: async (data) => {
         setUser(data.data)
+        if (deviceToken) {
+          mutateRegisterDeviceToken({
+            device_token: deviceToken,
+            user_id: data.data.id
+          },{
+            onSuccess: (dataToken) => {
+              console.log(dataToken)
+            },
+            onError: (err: any) => {
+              console.log(err.response)
+            }
+          })
+        }
         await AsyncStorage.setItem("authToken", data.token || "")
         router.replace("/dashboard")
       },

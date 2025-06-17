@@ -2,6 +2,7 @@ export const endpoints = {
   auth: {
     login: "/auth/",
     register: "/auth/register/",
+    registerToken: "/auth/device-token/",
   },
   users: {
     getAll: "/users",

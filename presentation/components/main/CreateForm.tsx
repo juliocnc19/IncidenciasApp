@@ -48,10 +48,7 @@ export default function CreateForm() {
         }, 700)
       },
       onError: (err: any) => {
-        setMessage(err.response.data.error)
-        setTimeout(() => {
-          setMessage("")
-        }, 1500)
+        setMessage(err.response.data.detail)
       }
     })
   };

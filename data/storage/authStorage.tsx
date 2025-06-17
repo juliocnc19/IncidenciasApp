@@ -3,5 +3,7 @@ import { authStorageType } from "../../utils/types/authStorageType";
 
 export const authStorage = create<authStorageType>((set) => ({
   user: null,
-  setUser: (newUser) => set({ user: newUser })
+  deviceToken: null,
+  setUser: (newUser) => set({ user: newUser }),
+  setDeviceToken: (newDeviceToken) => set({ deviceToken: newDeviceToken })
 }))

@@ -41,6 +41,7 @@ export default function HeaderApp({ isBack }: { isBack: boolean }) {
             >
               <Ionicons name="menu" size={28} color={"#555"} />
             </TouchableOpacity>
+            {/* 
             <TouchableOpacity 
               style={{
                 shadowColor: '#000',
@@ -57,6 +58,7 @@ export default function HeaderApp({ isBack }: { isBack: boolean }) {
             >
               <Ionicons name="notifications" size={28} color={"#555"} />
             </TouchableOpacity>
+            */}
           </>
         ) : (
           <TouchableOpacity 

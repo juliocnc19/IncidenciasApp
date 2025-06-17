@@ -7,8 +7,9 @@ import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { registerForPushNotificationsAsync } from "../utils/libs/registerForNotifications";
+import { registerForPushNotifications } from "../utils/libs/registerForNotifications";
 import * as Notifications from 'expo-notifications';
+import { authStorage } from "../data/storage/authStorage";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -22,6 +23,7 @@ Notifications.setNotificationHandler({
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
+  const { setDeviceToken } = authStorage()
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/Lato-Regular.ttf'),
   });
@@ -30,8 +32,11 @@ export default function Layout() {
   const responseListener = useRef<Notifications.EventSubscription | null>(null);
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) => {
-      console.log('Token:', token);
+    registerForPushNotifications().then((token) => {
+      if (token) {
+        console.log('Token:', token);
+        setDeviceToken(token)
+      }
     });
 
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {

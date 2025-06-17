@@ -10,14 +10,16 @@ import MessageError from '../shared/MessageError';
 import { useRouter } from 'expo-router';
 import { authStorage } from '../../../data/storage/authStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRegisterToken } from '../../hooks/auth/useTokenDevice';
 
 export default function LoginForm() {
   const { control, handleSubmit, formState: { errors }, watch } = useForm<LoginInputType>({
     resolver: zodResolver(userLoginSchema),
   });
 
-  const { setUser } = authStorage()
+  const { setUser,deviceToken } = authStorage()
   const { isPending, isError, mutate } = useLoginUser()
+  const {mutate:mutateRegisterDeviceToken} = useRegisterToken()
   const router = useRouter()
   const [message, setMessage] = useState<string>("")
   const formValues = watch();
@@ -26,6 +28,19 @@ export default function LoginForm() {
   const onSubmit = async (input: LoginInputType) => {
     mutate(input, {
       onSuccess: async (data) => {
+        if (deviceToken) {
+          mutateRegisterDeviceToken({
+            device_token: deviceToken,
+            user_id: data.data.id
+          },{
+            onSuccess: (dataToken) => {
+              console.log(dataToken)
+            },
+            onError: (err: any) => {
+              console.log(err.response)
+            }
+          })
+        }
         setUser(data.data)
         await AsyncStorage.setItem("authToken", data.token || "")
         router.replace('/dashboard')

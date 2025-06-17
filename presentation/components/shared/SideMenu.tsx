@@ -80,6 +80,14 @@ export default function SideMenu({ isVisible, onClose }: SideMenuProps) {
             <Ionicons name="person" size={32} color="#555" />
             <Text className="text-gray-500 text-xl font-semibold">{user?.username}</Text>
           </View>
+          <View className="flex-row items-center gap-4 mt-6">
+            <Text className="text-gray-500 text-lg font-medium">Nombre:</Text>
+            <Text className="text-gray-500 text-lg font-normal">{user?.first_name + " " + user?.last_name}</Text>
+          </View>
+          <View className="flex-row items-center gap-4">
+            <Text className="text-gray-500 text-lg font-medium">Cédula:</Text>
+            <Text className="text-gray-500 text-lg font-normal">{user?.cedula}</Text>
+          </View>
         </View>
 
         <View className="p-4 border-t border-gray-200">
