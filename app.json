@@ -9,7 +9,7 @@
     "newArchEnabled": true,
     "scheme": "incidenciasapp",
     "splash": {
-      "image": "./assets/logo_unerg.png",
+      "image": "./assets/logo_unerg-removebg-preview.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,7 +18,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo_unerg.png",
+        "foregroundImage": "./assets/logo_unerg-removebg-preview.png",
+        "resizeMode": "contain",
         "backgroundColor": "#ffffff"
       },
       "package": "com.juliocnc19.IncidenciasApp",
