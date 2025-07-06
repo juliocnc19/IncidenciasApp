@@ -112,6 +112,33 @@ export default function AttachmentsList({ attachments, incidentId, statusId }: A
         )}
       </View>
 
+      {/* Mensaje informativo sobre documentos necesarios */}
+      {canUpload && selectedFiles.length === 0 && (
+        <View className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+          <View className="flex-row items-center mb-2">
+            <Ionicons name="information-circle" size={20} color="#3b82f6" />
+            <Text className="text-blue-800 font-semibold ml-2">Documentos necesarios</Text>
+          </View>
+          <Text className="text-blue-700 text-sm leading-5">
+            Para completar tu solicitud, necesitas subir los siguientes documentos:
+          </Text>
+          <View className="mt-2">
+            <View className="flex-row items-center mb-1">
+              <Ionicons name="checkmark-circle" size={16} color="#3b82f6" />
+              <Text className="text-blue-700 text-sm ml-2">Constancia de estudio</Text>
+            </View>
+            <View className="flex-row items-center mb-1">
+              <Ionicons name="checkmark-circle" size={16} color="#3b82f6" />
+              <Text className="text-blue-700 text-sm ml-2">Constancia de inscripción</Text>
+            </View>
+            <View className="flex-row items-center">
+              <Ionicons name="checkmark-circle" size={16} color="#3b82f6" />
+              <Text className="text-blue-700 text-sm ml-2">Constancia de notas</Text>
+            </View>
+          </View>
+        </View>
+      )}
+
       {attachments && attachments.length > 0 && (
         <FlatList
           data={attachments}
