@@ -68,7 +68,7 @@ export default function Layout() {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaView className="flex-1">
-        <StatusBar style="dark" />
+        <StatusBar style="auto"/>
         <Stack
           screenOptions={{
             headerShown: false,

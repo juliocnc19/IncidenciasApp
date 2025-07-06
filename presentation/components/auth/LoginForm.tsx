@@ -11,6 +11,7 @@ import { useRouter } from 'expo-router';
 import { authStorage } from '../../../data/storage/authStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRegisterToken } from '../../hooks/auth/useTokenDevice';
+import { checkInternetConnection } from '../../../utils/libs/networkUtils';
 
 export default function LoginForm() {
   const { control, handleSubmit, formState: { errors }, watch } = useForm<LoginInputType>({
@@ -26,6 +27,9 @@ export default function LoginForm() {
   const isFormFilled = formValues.email?.length > 0 && formValues.password?.length > 0;
 
   const onSubmit = async (input: LoginInputType) => {
+    // Limpiar mensaje de error anterior
+    setMessage("");
+
     mutate(input, {
       onSuccess: async (data) => {
         if (deviceToken) {
@@ -46,7 +50,7 @@ export default function LoginForm() {
         router.replace('/dashboard')
       },
       onError: (err: any) => {
-        setMessage(err.response.data.detail)
+        setMessage(err.response?.data?.detail || 'Error de conexión. Compruebe su conexión.')
       }
     })
   };
@@ -57,7 +61,7 @@ export default function LoginForm() {
       <View className='items-center'>
         <Text className='text-5xl font-bold text-center text-blue-500'>BIENVENIDO</Text>
         <Text className='text-center text-gray-500'>Para continuar inicie sesion</Text>
-        {isError && <MessageError message={message} />}
+        {(isError || message) && <MessageError message={message} />}
       </View>
       <View className='items-center'>
         <Controller
