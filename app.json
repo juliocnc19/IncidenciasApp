@@ -19,7 +19,6 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo_unerg-removebg-preview.png",
-        "resizeMode": "contain",
         "backgroundColor": "#ffffff"
       },
       "package": "com.juliocnc19.IncidenciasApp",
